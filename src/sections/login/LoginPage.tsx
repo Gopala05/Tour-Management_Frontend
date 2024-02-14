@@ -1,23 +1,29 @@
-import React, { useEffect } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
-import { motion } from 'framer-motion';
-import Lottie from 'react-lottie';
-import animationData from '../../assets/Animation_Files/Login_back.json';
-import animationData1 from '../../assets/Animation_Files/Login_Ani.json';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Form, Input, Button, Typography } from "antd";
+import { motion } from "framer-motion";
+import Lottie from "react-lottie";
+import animationData from "../../assets/Animation_Files/Login_back.json";
+import animationData1 from "../../assets/Animation_Files/Login_Ani.json";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../../store/UserSlice";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const LoginPage: React.FC = () => {
-
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("Invalid");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const defaultOptions = {
     loop: true,
     autoplay: true,
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
 
@@ -26,20 +32,49 @@ const LoginPage: React.FC = () => {
     autoplay: true,
     animationData: animationData1,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
 
-  const handleLogin = (value: any) => {
-    const username = value.username;
-    const password = value.password;
-    navigate('/dashboard');
-  }
+  const handleLogin = async (value: { username: any; password: any }) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/sign_in`,
+        {
+          username: `${value.username}`,
+          password: `${value.password}`,
+        }
+      );
+      if (response.status == 200) {
+        dispatch(setUserData(response.data.user))
+        navigate("/dashboard");
+      }
+    } catch (error: any) {
+      setIsInvalid(true);
+      setErrorMessage(error.response.data.error);
+    }
+  };
 
   return (
-    <div className="login-container" style={{ position: 'relative' }}>
-      <Lottie options={defaultOptions} height={'100vh'} width={'100vw'} style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }} />
-      <Lottie options={defaultOptions1} height={'70vh'} width={'50vw'} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-100%, -50%)', zIndex: 2 }} />
+    <div className="login-container" style={{ position: "relative" }}>
+      <Lottie
+        options={defaultOptions}
+        height={"100vh"}
+        width={"100vw"}
+        style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
+      />
+      <Lottie
+        options={defaultOptions1}
+        height={"70vh"}
+        width={"50vw"}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-100%, -50%)",
+          zIndex: 2,
+        }}
+      />
 
       <motion.div
         className="login-form-container"
@@ -48,16 +83,30 @@ const LoginPage: React.FC = () => {
         transition={{ duration: 1 }}
       >
         {/* <Title level={1} style={{ textAlign: 'center', marginBottom: 24 }}> */}
-         <h1 style={{color: '#FF6347', marginBottom: 24}}> Login </h1>
+        <h1 style={{ color: "#FF6347", marginBottom: 24 }}> Login </h1>
         {/* </Title> */}
-        <Form name="login" initialValues={{ remember: true }} onFinish={(values) => handleLogin(values)}>
-          <Form.Item name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
-            <Input className="InputBox" placeholder="Username" />
+        <Form
+          name="login"
+          initialValues={{ remember: true }}
+          onFinish={(values) => handleLogin(values)}
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: "Please input your username!" }]}
+            validateStatus={isInvalid ? "error" : ""}
+          >
+            <Input className="InputBox" placeholder="Username" onChange={() => setIsInvalid(false)}/>
           </Form.Item>
 
-          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-            <Input.Password className="InputBox" placeholder="Password" />
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+            validateStatus={isInvalid ? "error" : ""}
+          >
+            <Input.Password className="InputBox" placeholder="Password" onChange={() => setIsInvalid(false)} />
           </Form.Item>
+
+          <p style={{ color: 'red', textAlign: 'start'}}>{isInvalid ? errorMessage : ''}</p>
 
           <Form.Item>
             <Button type="primary" className="login-button" htmlType="submit">
@@ -66,7 +115,7 @@ const LoginPage: React.FC = () => {
           </Form.Item>
         </Form>
 
-        <Text style={{ textAlign: 'center', marginTop: 16, display: 'block' }}>
+        <Text style={{ textAlign: "center", marginTop: 16, display: "block" }}>
           Don't have an account? <a href="#signup">Sign up</a>
         </Text>
       </motion.div>
