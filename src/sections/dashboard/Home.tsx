@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card } from "antd";
+import { Avatar, Card } from "antd";
 import {
   BsFillArchiveFill,
   BsFillGrid3X3GapFill,
@@ -18,8 +18,12 @@ import {
   Line,
 } from "recharts";
 import Boy from "../../assets/Icons/Boy_Avatar.png";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../../store/UserSlice";
 
 function Home() {
+  const user = useSelector(selectUserData);
+  
   const data = [
     {
       name: "Page A",
@@ -74,11 +78,11 @@ function Home() {
             <span className="dark-label">
               Welcome!{" "}
               <span style={{ color: "#EA4242" }}>
-                Gopala Krishna V
-                <Badge
+                {user.first_name} {user.last_name}
+                {/* <Badge
                   count={"Member"}
                   style={{ backgroundColor: "#38A6E7" }}
-                />
+                /> */}
               </span>
             </span>
           </div>

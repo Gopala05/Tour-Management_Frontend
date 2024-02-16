@@ -8,6 +8,8 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUserData } from "../../../store/UserSlice";
 
 interface HeaderProps {
   OpenSidebar: () => void;
@@ -15,6 +17,8 @@ interface HeaderProps {
 
 function Header({ OpenSidebar }: HeaderProps) {
   const navigate = useNavigate();
+
+  const user = useSelector(selectUserData);
 
   const items: MenuProps["items"] = [
     {
@@ -81,7 +85,7 @@ function Header({ OpenSidebar }: HeaderProps) {
               color: "whitesmoke",
             }}
           >
-            Gopala Krishna V
+            {user.first_name} {user.last_name}
             <CaretDownOutlined />
           </p>
         </Dropdown>
