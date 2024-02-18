@@ -17,3 +17,12 @@ Before you begin, ensure you have the following installed on your local machine:
 
    ```bash
    https://github.com/Gopala05/Tour-Management_Frontend.git
+
+2. Run the following Command in Root Directory:
+   npm command
+   ```bash
+      npm install
+   
+   yarn command
+   ```bash
+      yarn install
