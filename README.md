@@ -16,4 +16,4 @@ Before you begin, ensure you have the following installed on your local machine:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/tour-management-frontend.git
+   https://github.com/Gopala05/Tour-Management_Frontend.git
