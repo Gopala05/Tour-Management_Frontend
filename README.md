@@ -26,3 +26,12 @@ Before you begin, ensure you have the following installed on your local machine:
 - yarn command
    ```bash
       yarn install
+
+2. Run the Code in localhost:
+- npm command
+   ```bash
+      npm run dev
+   
+- yarn command
+   ```bash
+      yarn dev
