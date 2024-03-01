@@ -8,9 +8,48 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Cinzel Decorative", cursive; /* Replace 'Cinzel Decorative' with your preferred font */
+  font-family: "Cinzel Decorative", cursive, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+.ant-select-item-option:hover {
+  background-color: #38a6e7 !important;
+  color: white;
+}
+
+.ant-select-item-option-active,
+.ant-select-item-option-selected {
+  background-color: #38a6e7 !important;
+  color: white;
+}
+
+.ant-form-item:focus-within .ant-select-multiple .ant-select-selector,
+.ant-form-item:focus-within
+  .ant-select:not(.ant-select-multiple)
+  .ant-select-selector {
+  border: 1px solid #38a6e7 !important;
+  box-shadow: 0 0 5px rgba(24, 144, 255, 0.5) !important;
+  outline: none !important;
+}
+
+.ant-form-item:hover .ant-select-multiple .ant-select-selector,
+.ant-form-item:hover
+  .ant-select:not(.ant-select-multiple)
+  .ant-select-selector {
+  border: 1px solid #38a6e7 !important;
+  box-shadow: 0 0 5px rgba(24, 144, 255, 0.5) !important;
+  outline: none !important;
+}
+
+.ant-select-selection-search-input:focus,
+.ant-select-selection-search-input:hover {
+  border: 1px solid transparent !important;
+  box-shadow: 0 0 5px transparent !important;
+  outline: none !important;
+}
 /* Import Google Fonts link in your HTML head to use Cinzel Decorative */
 
 a {
@@ -27,6 +66,7 @@ ul {
   overflow-x: hidden;
   position: fixed;
   z-index: 1;
+
 }
 
 .navigation {
@@ -35,6 +75,10 @@ ul {
   align-items: center;
   width: 100%;
   margin: auto;
+  background-image: url('/src/assets/Nav_Bar_Background.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   background-color: #263043;
   /* padding: 35px 0px; */
   padding: 1px 10rem;
@@ -573,7 +617,7 @@ transform: scale(1.1);
 
 .login-container {
   position: relative;
-  height: 100vh; /* Ensure the container takes full height of the viewport */
+  height: 100vh;
   overflow: hidden;
   max-width: 100%;
 }
@@ -601,6 +645,8 @@ transform: scale(1.1);
   text-align: center; /* Center the content within the form container */
   box-shadow: 1.5rem 1.5rem 0.9rem rgba(0, 0, 0, 0.6); /* Add a subtle box shadow */
   z-index: 2;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(100vw);
 }
 
 .login-form-container:hover {
@@ -665,6 +711,46 @@ transform: scale(1.1);
   font-weight: 800;
 }
 
+.sign-up {
+  position: absolute;
+  top: 12%;
+  left: 42%;
+  display: flex;
+  flex-direction: column;
+  text-align: center !important;
+  cursor: default;
+}
+
+.sign-up-card {
+  position: absolute;
+  top: 800%;
+  left: 70%;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+  background-color: rgba(238, 204, 204, 0.4);  
+  padding: 40px;
+  border-radius: 1.5rem;
+  width: 60vw;
+  height: 80vh;
+  text-align: center;
+  box-shadow: 0.4rem 0.2rem 1rem rgba(108, 192, 244, 0.5);
+  z-index: 2;
+  transition: box-shadow 0.3s ease;
+}
+
+.sign-up-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.sign-up-item {
+  font-size: 1.1rem;
+  color: rgb(169, 242, 241);
+  font-family: -apple-system; 
+  font-weight: 900
+}
+
 .profile-info {
   display: flex;
   align-items: center;
@@ -673,7 +759,7 @@ transform: scale(1.1);
   gap: 20px;
   margin-bottom: 20px;
   border: 1px solid rgba(0, 0, 0, 0.35);
-  background-color: white !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
   box-shadow: 12px 12px 5px -3px rgba(0, 0, 0, 0.35);
 }
 
@@ -728,6 +814,10 @@ body {
     "sidebar header header header"
     "sidebar main main main";
   height: 100vh;
+  background-image: url('/src/assets/Dashboard_Background.jpg') !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Header  */
@@ -737,7 +827,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1d2634;
+  background-image: url('/src/assets/Dashboard_nav.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+  background-color: rgba(0, 0, 0, 0.1);
   padding: 0 30px 0 30px;
   box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
 }
@@ -751,7 +844,7 @@ body {
 #sidebar {
   grid-area: sidebar;
   height: 100%;
-  background-color: #263043;
+  background-color: rgba(3, 3, 22, 0.8);
   overflow-y: auto;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
