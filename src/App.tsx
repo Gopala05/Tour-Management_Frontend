@@ -6,6 +6,7 @@ import "./App.css";
 import HomeView from "./pages/HomeView";
 import LoginView from "./pages/LoginView";
 import DashboardView from "./pages/DashboradView";
+import SignUp from "./sections/login/SignUp";
 
 const App: React.FC = () => (
   <ConfigProvider
@@ -19,6 +20,7 @@ const App: React.FC = () => (
       <Routes>
         <Route path="/" element={<HomeView />} />
         <Route path="/login" element={<LoginView />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="/dashboard" element={<DashboardView />} />
       </Routes>
     </Router>
