@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Typography } from "antd";
 import { motion } from "framer-motion";
 import Lottie from "react-lottie";
@@ -7,7 +7,7 @@ import animationData1 from "../../assets/Animation_Files/Login_Ani.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../store/UserSlice";
+import { setToken, setUserData } from "../../../store/UserSlice";
 
 const { Text } = Typography;
 
@@ -36,6 +36,19 @@ const LoginPage: React.FC = () => {
     },
   };
 
+  const handleEnterKeyPress = (event: { key: string; }) => {
+    if (event.key === 'Enter') {
+      handleLogin
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleEnterKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleEnterKeyPress);
+    };
+  }, [handleEnterKeyPress]);
+
   const handleLogin = async (value: { username: any; password: any }) => {
     try {
       const response = await axios.post(
@@ -45,8 +58,9 @@ const LoginPage: React.FC = () => {
           password: `${value.password}`,
         }
       );
-      if (response.status == 200) {
-        dispatch(setUserData(response.data.user))
+      if (response.status == 202) {
+        dispatch(setUserData(response.data.user));
+        dispatch(setToken(response.data.token))
         navigate("/dashboard");
       }
     } catch (error: any) {
@@ -82,9 +96,7 @@ const LoginPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        {/* <Title level={1} style={{ textAlign: 'center', marginBottom: 24 }}> */}
         <h1 style={{ color: "#FF6347", marginBottom: 24 }}> Login </h1>
-        {/* </Title> */}
         <Form
           name="login"
           initialValues={{ remember: true }}
@@ -116,7 +128,7 @@ const LoginPage: React.FC = () => {
         </Form>
 
         <Text style={{ textAlign: "center", marginTop: 16, display: "block" }}>
-          Don't have an account? <a href="#signup">Sign up</a>
+          Don't have an account? <a href="/sign-up">Sign up</a>
         </Text>
       </motion.div>
     </div>
