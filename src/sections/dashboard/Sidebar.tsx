@@ -1,4 +1,5 @@
-import { BsGrid1X2Fill, BsBookFill, BsActivity, BsAirplaneEnginesFill } from "react-icons/bs";
+import { BsGrid1X2Fill, BsBookFill, BsActivity } from "react-icons/bs";
+import travel from "../../assets/Icons/trael-dash.png"
 
 interface SidebarProps {
   openSidebarToggle: boolean;
@@ -11,9 +12,9 @@ function Sidebar({ openSidebarToggle, OpenSidebar }: SidebarProps) {
       id="sidebar"
       className={openSidebarToggle ? "sidebar-responsive" : ""}
     >
-      <div className="sidebar-title">
-        <div className="sidebar-brand">
-          <BsAirplaneEnginesFill className="icon_header" style={{ rotate: '45deg'}} /> TRAVEL
+      <div className="sidebar-title" style={{ paddingLeft: '0.85vw' }}>
+        <div className="sidebar-brand" >
+          <img src={travel} alt="Travel Icon" width={50} className="icon_header" /> TRAVEL
         </div>
         <span className="icon close_icon" onClick={OpenSidebar}>
           X

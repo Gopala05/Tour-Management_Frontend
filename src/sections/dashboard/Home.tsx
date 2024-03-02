@@ -19,10 +19,13 @@ import {
 } from "recharts";
 import Boy from "../../assets/Icons/Boy_Avatar.png";
 import { useSelector } from "react-redux";
-import { selectUserData } from "../../../store/UserSlice";
+import { selectToken, selectUserData } from "../../../store/UserSlice";
 
 function Home() {
   const user = useSelector(selectUserData);
+  const token = useSelector(selectToken);
+
+  console.log(token)
   
   const data = [
     {
@@ -72,12 +75,12 @@ function Home() {
   return (
     <>
       <main className="main-container">
-        <Card className="card-pro">
+        <Card className="card-pro" style={{ background: 'transparent', border: 'none' }}>
           <div className="profile-info card">
             <Avatar size={80} src={Boy} />
             <span className="dark-label">
               Welcome!{" "}
-              <span style={{ color: "#EA4242" }}>
+              <span style={{ color: "white" }}>
                 {user.first_name} {user.last_name}
                 {/* <Badge
                   count={"Member"}
