@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import GAC from '../../assets/Icons/Agency.png';
-import Tour1 from '../../assets/Tourism Places/Amritsar.jpg';
-import Tour2 from '../../assets/Tourism Places/Jaipur.jpg';
-import Tour3 from '../../assets/Tourism Places/Rishikesh.jpg';
-import Tour4 from '../../assets/Tourism Places/Spiti_Vally.jpg';
-import Tour5 from '../../assets/Tourism Places/Thekkady.jpg';
-import Tour6 from '../../assets/Tourism Places/Udaipur.jpg';
+// import Tour1 from '../../assets/Tourism Places/Amritsar.jpg';
+// import Tour2 from '../../assets/Tourism Places/Jaipur.jpg';
+// import Tour3 from '../../assets/Tourism Places/Rishikesh.jpg';
+// import Tour4 from '../../assets/Tourism Places/Spiti_Vally.jpg';
+// import Tour5 from '../../assets/Tourism Places/Thekkady.jpg';
+// import Tour6 from '../../assets/Tourism Places/Udaipur.jpg';
+import Tour from "../../assets/TourImage.webp"
 import { Image } from 'antd';
+import axios from "axios";
 
 function Trending() {
+
+  const [topdest, setDest] = useState([]);
 
   useEffect(() => {
     const swiper = new Swiper(".mySwiper", {
@@ -39,6 +43,38 @@ function Trending() {
       swiper.destroy();
     };
   }, []); 
+
+  useEffect(() =>{
+    axios
+      .get(
+        `${import.meta.env.VITE_API_URL}/api/top-destinations`,
+      )
+      .then((response) => {
+        setDest(response.data);
+      })
+      .catch((error) => {
+        Modal.error({
+          title: "Error",
+          content: (
+            <Card style={{ fontSize: "20px" }} bordered>
+              <b>
+                {error.message == "Request failed with status code 500"
+                  ? "Internal Server Error"
+                  : error.response.data.message === "Invalid token"
+                  ? "Session Logged Out \n Please Login Again"
+                  : error.response.data.message}
+              </b>
+            </Card>
+          ),
+          style: {
+            top: "10%",
+            left: "100px",
+          },
+        });
+      });
+  },[])
+
+  console.log(topdest)
   
   return (
     <section id="trending">
@@ -50,19 +86,20 @@ function Trending() {
       <div class="trending-box-container">
         <div class="swiper mySwiper">
           <div class="swiper-wrapper">
+          {topdest.map((item) => 
             <div class="swiper-slide">
               <div class="trending-box">
                 <div class="t-b-img">
-                  <Image src={Tour1} alt="Tending Image 1" />
+                  <Image src={Tour} alt="Tending Image"/>
                 </div>
 
                 <div class="t-b-text">
-                  <a href="#"> Amritsar </a>
-                  <span> 10 Places | 3 Ativities </span>
+                  <a href="#"> {item.place_name} </a>
+                  <span> {item.no_of_places} Places | {item.no_of_activities} Ativities </span>
                 </div>
 
                 <div class="price-book">
-                  <span class="t-price"> 10,999 INR </span>
+                  <span class="t-price"> {item.price_amount} INR </span>
                   <a href="#" class="t-book"> Book Now </a>
                 </div>
 
@@ -72,123 +109,7 @@ function Trending() {
                 </div>
               </div>
             </div>
-
-            <div class="swiper-slide">
-              <div class="trending-box">
-                <div class="t-b-img">
-                  <Image src={Tour6} alt="Tending Image 6" />
-                </div>
-
-                <div class="t-b-text">
-                  <a href="#"> Udaipur </a>
-                  <span> 4 Places | 5 Ativities </span>
-                </div>
-
-                <div class="price-book">
-                  <span class="t-price"> 3,999 INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
-                </div>
-
-                <div class="agency-name">
-                  <img src={GAC} alt="Agency Logo" />
-                  <span> GAC </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="trending-box">
-                <div class="t-b-img">
-                  <Image src={Tour4} alt="Tending Image 4" />
-                </div>
-
-                <div class="t-b-text">
-                  <a href="#"> Spiti vally </a>
-                  <span> 14 Places | 2 Ativities </span>
-                </div>
-
-                <div class="price-book">
-                  <span class="t-price"> 14,999 INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
-                </div>
-
-                <div class="agency-name">
-                  <img src={GAC} alt="Agency Logo" />
-                  <span> GAC </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="trending-box">
-                <div class="t-b-img">
-                  <Image src={Tour3} alt="Tending Image 3" />
-                </div>
-
-                <div class="t-b-text">
-                  <a href="#"> Rishikesh </a>
-                  <span> 6 Places | 6 Ativities </span>
-                </div>
-
-                <div class="price-book">
-                  <span class="t-price"> 4,999 INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
-                </div>
-
-                <div class="agency-name">
-                  <img src={GAC} alt="Agency Logo" />
-                  <span> GAC </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="trending-box">
-                <div class="t-b-img">
-                  <Image src={Tour2} alt="Tending Image 2" />
-                </div>
-
-                <div class="t-b-text">
-                  <a href="#"> Jaipur </a>
-                  <span> 9 Places | 5 Ativities </span>
-                </div>
-
-                <div class="price-book">
-                  <span class="t-price"> 7,999 INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
-                </div>
-
-                <div class="agency-name">
-                  <img src={GAC} alt="Agency Logo" />
-                  <span> GAC </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="trending-box">
-                <div class="t-b-img">
-                  <Image src={Tour5} alt="Tending Image 5" />
-                </div>
-
-                <div class="t-b-text">
-                  <a href="#"> Thekkady </a>
-                  <span> 5 Places | 8 Ativities </span>
-                </div>
-
-                <div class="price-book">
-                  <span class="t-price"> 6,999 INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
-                </div>
-
-                <div class="agency-name">
-                  <img src={GAC} alt="Agency Logo" />
-                  <span> GAC </span>
-                </div>
-              </div>
-            </div>
-
-            
+          )}
           </div>
           <div class="swiper-pagination"></div>
         </div>

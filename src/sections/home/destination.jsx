@@ -1,25 +1,8 @@
 import React, { useEffect } from 'react';
 import dest1 from '../../assets/Destination Places/Badami.jpg';
 import dest2 from '../../assets/Destination Places/Coorg.jpg';
-import axios from "axios";
 
 function destination() {
-
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/api/top-destinations`, 
-    // {
-    //   headers: {
-    //     Authorization: `Bearer ${token.token}`,
-    //   },
-    // }
-    )
-    .then((response) => {
-      console.log(response)
-    })
-    .catch((error) => {
-     
-    });
-  })
 
   return (
     <section id="destination">
