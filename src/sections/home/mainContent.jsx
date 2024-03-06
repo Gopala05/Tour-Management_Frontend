@@ -27,7 +27,7 @@ function mainContent() {
   }, []); 
   
   return (
-    <div style={{marginTop: '12rem'}}>
+    <div style={{ marginBottom: 0, minHeight: '70vh', paddingBottom: 0, marginTop: "25vh" }}>
       <section id="main">
       <div className="main-content">
         <div className="main-text">

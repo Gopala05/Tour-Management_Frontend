@@ -77,7 +77,7 @@ function Trending() {
   console.log(topdest)
   
   return (
-    <section id="trending">
+    <section id="trending" style={{ marginBottom: 0, minHeight: '100vh', paddingBottom: 0 }}>
       <div class="trending-heading">
         <h2>Trending</h2>
         <p>Trending Places for You...</p>
@@ -100,7 +100,7 @@ function Trending() {
 
                 <div class="price-book">
                   <span class="t-price"> {item.price_amount} INR </span>
-                  <a href="#" class="t-book"> Book Now </a>
+                  <a href="/login" class="t-book"> Book Now </a>
                 </div>
 
                 <div class="agency-name">
