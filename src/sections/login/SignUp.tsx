@@ -23,6 +23,8 @@ function SignUp() {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const navigate = useNavigate();
   const currentDate = new Date().toISOString().split("T")[0];
+  const [mobileInvalid, setMobileInvalid] = useState(false);
+  const [mobileError, setErrorMessageMobile] = useState("");
 
   const [formValues, setFormValues] = useState({
     user_name: "",
@@ -42,6 +44,13 @@ function SignUp() {
 
   const handleInput = (e: { target: { name: any; value: any } }) => {
     setIsInvalid(false);
+    setMobileInvalid(false);
+    if (e.target.name == "mobile_number"){
+      if(e.target.value.toString().length > 10) {
+        setMobileInvalid(true)
+        setErrorMessageMobile("Mobile number Should be 10 digits only")
+      }
+    }
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
@@ -239,15 +248,34 @@ function SignUp() {
                     ></Input>
                   </Form.Item>
 
-                  <Form.Item style={{ textAlign: "start" }}>
+                  <Form.Item style={{ textAlign: "start" }}
+                      rules={[
+                      {
+                        required: true,
+                        message: "Please Enter your mobile Number!",
+                      },
+                    ]}
+
+                    validateStatus={
+                      mobileInvalid ? "error" : ""
+                    }
+                    help={
+                      mobileInvalid
+                        ? mobileError
+                        : null
+                    }
+                    >
+
                     <label className="sign-up-item"> Mobile Number </label>
                     <Input
+                      type="number"
                       name="mobile_number"
                       className="InputBox"
                       placeholder="Mobile Number"
                       onChange={handleInput}
                     ></Input>
                   </Form.Item>
+
                 </Col>
                 <Col md={8} lg={12}>
                   <Form.Item
