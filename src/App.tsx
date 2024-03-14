@@ -10,10 +10,12 @@ import SignUp from "./sections/login/SignUp";
 import AdminLoginView from "./pages/AdminLoginView";
 import Booking from "./sections/booking/Booking";
 import Home from "./sections/dashboard/Home";
-import Travels from "./sections/Travels/Travels";
 import FeedBck from "./sections/feedback/FeedBck";
 import AdminHome from "./sections/Admin/adminDashboard/AdminHome";
 import CreatePackage from "./sections/Admin/packages/CreatePackage";
+import Packages from "./sections/Admin/packages/Packages";
+import TopDestinations from "./sections/Admin/TopDestinations/CreateTopDestinations";
+import ManageDestinations from "./sections/Admin/TopDestinations/ManageTopDestinations";
 
 const App: React.FC = () => (
   <ConfigProvider
@@ -31,12 +33,14 @@ const App: React.FC = () => (
         {/* <Route path="/dashboard" element={<DashboardView />} /> */}
         <Route path="/home" element={<Home />} />
         <Route path="/booking" element={<Booking />} />
-        <Route path="/travel-history" element={<Travels />} />
         <Route path="/feedback" element={<FeedBck />} />
 
         <Route path="/admin-login" element={<AdminLoginView />} />
         <Route path="/admin-home" element={<AdminHome />} />
         <Route path="/create-package" element={<CreatePackage />} />
+        <Route path="/packages" element={<Packages />} />
+        <Route path="/top-destinations" element={<TopDestinations />} />
+        <Route path="/manage-top-destinations" element={<ManageDestinations />} />
       </Routes>
     </Router>
   </ConfigProvider>
