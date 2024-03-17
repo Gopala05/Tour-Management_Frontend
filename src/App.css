@@ -73,6 +73,12 @@
   color: rgba(255, 255, 255, 1);
 }
 
+.ant-pagination li{
+  color: white !important;
+  background-color: white !important;
+}
+
+
 a {
   text-decoration: none;
 }
@@ -794,7 +800,7 @@ transform: scale(1.1);
 .sign-up-item {
   font-size: 1.1rem;
   color: rgb(169, 242, 241);
-  font-family: -apple-system; 
+  /* font-family: -apple-system;  */
   font-weight: 900
 }
 
@@ -923,11 +929,12 @@ body {
 .sidebar-list-item {
   padding: 20px 20px 20px 20px;
   font-size: 18px;
+  color: white;
 }
 
 .sidebar-list-item:hover {
   background-color: rgba(255, 255, 255, 0.2) !important;
-  color: whitesmoke !important;
+  color: #1ee8e8 !important;
   cursor: pointer;
 }
 
