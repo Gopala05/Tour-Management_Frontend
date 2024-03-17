@@ -1,15 +1,14 @@
 import { FC, ReactNode, useState } from "react";
-import Header from "../sections/dashboard/Header";
-import Sidebar from "../sections/dashboard/Sidebar";
-// import Home from "../sections/dashboard/Home";
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
+import AdminHeader from "../sections/Admin/adminDashboard/AdminHeader";
+import AdminSidebar from "../sections/Admin/adminDashboard/AdminSidebar";
 
 interface Props {
   children: ReactNode;
 }
 
-const App: FC<Props> = ({ children }) => {
+const AdminDashboard: FC<Props> = ({ children }) => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState<boolean>(false);
 
   const OpenSidebar = (): void => {
@@ -18,13 +17,13 @@ const App: FC<Props> = ({ children }) => {
 
   return (
     <div className="grid-container">
-      <Header OpenSidebar={OpenSidebar} />
-        <Sidebar
+      <AdminHeader OpenSidebar={OpenSidebar} />
+        <AdminSidebar
           openSidebarToggle={openSidebarToggle}
           OpenSidebar={OpenSidebar}
         />
-      <Layout className="dashboard-home">
-        <Content >
+      <Layout className="main-container postlogin-background">
+        <Content>
           {children}
         </Content>
       </Layout>
@@ -34,4 +33,4 @@ const App: FC<Props> = ({ children }) => {
   );
 };
 
-export default App;
+export default AdminDashboard;

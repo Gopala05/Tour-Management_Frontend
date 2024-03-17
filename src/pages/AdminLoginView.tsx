@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Nav from '../sections/home/nav';
-import LoginPage from '../sections/login/LoginPage';
+import AdminLogin from '../sections/Admin/adminLogin/AdminLogin';
 
 const LoginView: React.FC = () => {
   useEffect(() => {
@@ -9,7 +9,7 @@ const LoginView: React.FC = () => {
   
   return(<>
     <Nav hide={true} />
-    <LoginPage />
+    <AdminLogin />
   </>)
 };
 

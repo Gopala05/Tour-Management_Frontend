@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Nav from '../sections/home/nav';
 import Main from '../sections/home/mainContent';
 import Trensding from '../sections/home/Trending';
+import Reviews from '../sections/home/reviews';
 // import Destnation from '../sections/home/destination';
 
 const HomeView: React.FC = () => {
@@ -14,6 +15,7 @@ const HomeView: React.FC = () => {
     <Nav hide={false}/>
     <Main />
     <Trensding />
+    <Reviews />
     {/* <Destnation/> */}
     {/* <hr style={{ border: 'none', fontSize: '1px' }}></hr> */}
     <Footer
