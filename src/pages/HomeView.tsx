@@ -4,6 +4,7 @@ import Nav from '../sections/home/nav';
 import Main from '../sections/home/mainContent';
 import Trensding from '../sections/home/Trending';
 import Reviews from '../sections/home/reviews';
+import ContactUs from '../sections/home/ContactUs';
 // import Destnation from '../sections/home/destination';
 
 const HomeView: React.FC = () => {
@@ -16,7 +17,9 @@ const HomeView: React.FC = () => {
     <Main />
     <Trensding />
     <Reviews />
+    <ContactUs />
     {/* <Destnation/> */}
+    
     {/* <hr style={{ border: 'none', fontSize: '1px' }}></hr> */}
     <Footer
       style={{

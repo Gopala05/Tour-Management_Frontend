@@ -3,11 +3,15 @@ import AdminDashboard from "../../../pages/AdminDashboard";
 import { Button, Col, Form, Input, Row, notification } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { selectAdminData, selectAdminToken } from "../../../../store/AdminSlice";
+import {
+  selectAdminData,
+  selectAdminToken,
+} from "../../../../store/AdminSlice";
 
 function CreatePackage() {
   const [isInvalid, setIsInvalid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("Invalid");
+  const currentDate = new Date().toISOString().split("T")[0];
 
   const admin = useSelector(selectAdminData);
   const token = useSelector(selectAdminToken);
@@ -29,56 +33,78 @@ function CreatePackage() {
   };
 
   const handleSubmission = async () => {
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/create-adventure-package`,
-        {
-          locations: formValues.locations,
-          no_of_activities: parseInt(formValues.activities),
-          no_of_places: parseInt(formValues.places),
-          cost: "$ "+formValues.cost,
-          duration: formValues.duration+" Weeks",
-          start_date: formValues.start_date,
-          created_by: admin.admin_id
+    if (formValues.start_date < currentDate) {
+      notification.error({
+        message: (
+          <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Invalid</p>
+        ),
+        description: (
+          <p style={{ fontSize: "1rem" }}>
+            <b>Date Can not be Lesser than Todays Date</b>
+          </p>
+        ),
+        placement: "topLeft",
+        style: {
+          backgroundColor: "white",
+          border: "2px solid #38A6E7",
+          borderRadius: "5px",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
+      });
+      setFormValues({ ...formValues, start_date: "" });
+    } else {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/create-adventure-package`,
+          {
+            locations: formValues.locations,
+            no_of_activities: parseInt(formValues.activities),
+            no_of_places: parseInt(formValues.places),
+            cost: "$ " + formValues.cost,
+            duration: formValues.duration + " Weeks",
+            start_date: formValues.start_date,
+            created_by: admin.admin_id,
           },
-        }
-      );
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+            },
+          }
+        );
 
-      if (response.status == 201) {
-        setIsInvalid(false);
-        setErrorMessage("");
-        setFormValues({
-          locations: "",
-          activities: "",
-          places: "",
-          cost: "",
-          duration: "",
-          start_date: "",
-        });
-        notification.open({
-          message: (
-            <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Successful</p>
-          ),
-          description: (
-            <p style={{ fontSize: "1rem" }}>
-              <b>{response.data.message}</b>
-            </p>
-          ),
-          placement: "topLeft",
-          style: {
-            backgroundColor: "white",
-            border: "2px solid #38A6E7",
-            borderRadius: "5px",
-          },
-        });
+        if (response.status == 201) {
+          setIsInvalid(false);
+          setErrorMessage("");
+          setFormValues({
+            locations: "",
+            activities: "",
+            places: "",
+            cost: "",
+            duration: "",
+            start_date: "",
+          });
+          notification.open({
+            message: (
+              <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Successful</p>
+            ),
+            description: (
+              <p style={{ fontSize: "1rem" }}>
+                <b>{response.data.message}</b>
+              </p>
+            ),
+            placement: "topLeft",
+            style: {
+              backgroundColor: "white",
+              border: "2px solid #38A6E7",
+              borderRadius: "5px",
+            },
+          });
+        }
+      } catch (error: any) {
+        setIsInvalid(true);
+        setErrorMessage(
+          error.response.data.message || "Error While Registering"
+        );
       }
-    } catch (error: any) {
-      setIsInvalid(true);
-      setErrorMessage(error.response.data.message || "Error While Registering");
     }
   };
 
@@ -87,7 +113,7 @@ function CreatePackage() {
       <AdminDashboard>
         <label style={{ fontSize: "2rem" }}> Package Creation Form</label>
         <Form>
-          <Row style={{ gap: 50, marginTop: '3vh' }}>
+          <Row style={{ gap: 50, marginTop: "3vh" }}>
             <Col lg={11}>
               <Form.Item
                 rules={[
@@ -112,7 +138,7 @@ function CreatePackage() {
                   Locations <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.locations=="" ? "" : formValues.locations}
+                  value={formValues.locations == "" ? "" : formValues.locations}
                   name="locations"
                   type="text"
                   placeholder="Locations"
@@ -143,7 +169,9 @@ function CreatePackage() {
                   No. Of Activities <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.activities=="" ? "" : formValues.activities}
+                  value={
+                    formValues.activities == "" ? "" : formValues.activities
+                  }
                   name="activities"
                   type="number"
                   placeholder="Number Of Activities"
@@ -171,10 +199,10 @@ function CreatePackage() {
                 style={{ textAlign: "start" }}
               >
                 <label style={{ color: "white", fontSize: "1rem" }}>
-                No. Of Places <span style={{ color: "red" }}>*</span>
+                  No. Of Places <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.places=="" ? "" : formValues.places}
+                  value={formValues.places == "" ? "" : formValues.places}
                   name="places"
                   type="number"
                   placeholder="Number Of Places"
@@ -206,7 +234,7 @@ function CreatePackage() {
                   Cost (in Dollars) <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.cost=="" ? "" : formValues.cost}
+                  value={formValues.cost == "" ? "" : formValues.cost}
                   name="cost"
                   type="number"
                   placeholder="Cost"
@@ -237,7 +265,7 @@ function CreatePackage() {
                   Duration (in Weeks) <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.duration=="" ? "" : formValues.duration}
+                  value={formValues.duration == "" ? "" : formValues.duration}
                   name="duration"
                   type="number"
                   placeholder="Duration"
@@ -268,19 +296,22 @@ function CreatePackage() {
                   Start Date <span style={{ color: "red" }}>*</span>
                 </label>
                 <Input
-                  value={formValues.start_date=="" ? "" : formValues.start_date}
+                  value={
+                    formValues.start_date == "" ? "" : formValues.start_date
+                  }
                   name="start_date"
                   type="date"
                   placeholder="Start Date"
+                  min={currentDate}
                   onChange={handleInput}
                 ></Input>
               </Form.Item>
             </Col>
           </Row>
         </Form>
-        <p style={{ color: "red", textAlign: "start", marginBottom: '5vh' }}>
-            {isInvalid ? errorMessage : ""}
-          </p>
+        <p style={{ color: "red", textAlign: "start", marginBottom: "5vh" }}>
+          {isInvalid ? errorMessage : ""}
+        </p>
         <Button className="login-button" onClick={() => handleSubmission()}>
           Add Package
         </Button>

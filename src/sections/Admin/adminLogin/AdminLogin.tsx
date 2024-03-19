@@ -38,7 +38,6 @@ const AdminLogin: React.FC = () => {
         }
       );
       if (response.status == 202) {
-        console.log(response.data)
         dispatch(setAdminData(response.data.admin));
         dispatch(setAdminToken(response.data.token));
         navigate("/admin-home");
