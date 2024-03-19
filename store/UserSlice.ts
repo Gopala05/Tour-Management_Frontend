@@ -5,6 +5,7 @@ export const userDataSlice = createSlice({
   initialState: {
     value: '',
     token: '',
+    bookings: [],
   },
   reducers: {
     setUserData: (state, action) => {
@@ -13,12 +14,16 @@ export const userDataSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
+    setBookings: (state, action) => {
+      state.bookings = action.payload;
+    },
   },
 });
 
-export const { setUserData, setToken } = userDataSlice.actions;
+export const { setUserData, setToken, setBookings } = userDataSlice.actions;
 
 export const selectUserData = (state: { userData: { value: any; }; }) => state.userData.value;
 export const selectToken = (state: { userData: { token: any; }; }) => state.userData.token;
+export const selectBookings = (state: { userData: { bookings: any; }; }) => state.userData.bookings;
 
 export default userDataSlice.reducer;
