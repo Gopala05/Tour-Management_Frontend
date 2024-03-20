@@ -1,6 +1,7 @@
 import { Avatar, Button, Dropdown } from "antd";
-import { BsSearch, BsJustify } from "react-icons/bs";
+import { BsJustify } from "react-icons/bs";
 import Boy from "../../assets/Icons/Boy_Avatar.png";
+import Girl from "../../assets/Icons/Girl_Avatar.png";
 import type { MenuProps } from "antd";
 import {
   CaretDownOutlined,
@@ -23,7 +24,7 @@ function Header({ OpenSidebar }: HeaderProps) {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: <Avatar style={{ width: "8vw", height: "8vw" }} src={Boy} />,
+      label: <Avatar style={{ width: "8vw", height: "8vw" }} src={user.gender.toString().toLowerCase() == "male" ? Boy : Girl} />,
     },
     {
       key: "2",
@@ -66,7 +67,7 @@ function Header({ OpenSidebar }: HeaderProps) {
         <BsJustify className="icon" onClick={OpenSidebar} />
       </div>
       <div className="header-left">
-        <BsSearch className="icon" />
+        {/* <BsSearch className="icon" /> */}
       </div>
       <div
         style={{
@@ -76,7 +77,7 @@ function Header({ OpenSidebar }: HeaderProps) {
           margin: 0,
         }}
       >
-        <Avatar size={40} src={Boy} style={{ marginRight: "10px" }} />
+        <Avatar size={40} src={user.gender.toString().toLowerCase() == "male" ? Boy : Girl} style={{ marginRight: "10px" }} />
         <Dropdown menu={{ items }} placement="bottomRight" arrow>
           <p
             className="dark-label"

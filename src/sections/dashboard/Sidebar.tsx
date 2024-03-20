@@ -1,5 +1,6 @@
-import { BsGrid1X2Fill, BsBookFill, BsActivity } from "react-icons/bs";
+import { BsGrid1X2Fill, BsBookFill, BsActivity} from "react-icons/bs";
 import travel from "../../assets/Icons/trael-dash.png"
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   openSidebarToggle: boolean;
@@ -7,6 +8,7 @@ interface SidebarProps {
 }
 
 function Sidebar({ openSidebarToggle, OpenSidebar }: SidebarProps) {
+  const navigate = useNavigate();
   return (
     <aside
       id="sidebar"
@@ -22,41 +24,15 @@ function Sidebar({ openSidebarToggle, OpenSidebar }: SidebarProps) {
       </div>
 
       <ul className="sidebar-list">
-        <li className="sidebar-list-item">
-          <a href="">
+        <li className="sidebar-list-item" onClick={() => navigate('/home')}>
             <BsGrid1X2Fill className="icon" /> Dashboard
-          </a>
         </li>
-        <li className="sidebar-list-item">
-          <a href="" >
+        <li className="sidebar-list-item" onClick={() => navigate('/booking')}>
             <BsBookFill className="icon" /> Bookings
-          </a>
         </li>
-        <li className="sidebar-list-item">
-          <a href="">
-            <BsActivity className="icon" /> Activity
-          </a>
+        <li className="sidebar-list-item" onClick={() => navigate('/feedback')}>
+            <BsActivity className="icon" /> Feedback
         </li>
-        {/* <li className='sidebar-list-item'>
-                <a href="">
-                    <BsPeopleFill className='icon'/> Customers
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsListCheck className='icon'/> Inventory
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsMenuButtonWideFill className='icon'/> Reports
-                </a>
-            </li>
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsFillGearFill className='icon'/> Setting
-                </a>
-            </li> */}
       </ul>
     </aside>
   );
