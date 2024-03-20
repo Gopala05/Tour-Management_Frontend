@@ -19,7 +19,6 @@ function nav({ hide }: NavProps) {
       top: 0,
       behavior: "smooth"
     });
-    // navigate("/");
   };
   return (
     <div className='navi'>
@@ -33,7 +32,8 @@ function nav({ hide }: NavProps) {
       {!hide ? <><ul className="menu">
           <li><Link onClick={() => HomeScroll()} to={''}>Home</Link></li>
           <li><Link onClick={() => scrollToFAQ("trending")} to={''}>Trending</Link></li>
-          <li><Link onClick={() => scrollToFAQ("destination")} to={''}>Destination</Link></li>
+          <li><Link onClick={() => scrollToFAQ("reviews")} to={''}>Reviews</Link></li>
+          <li><Link onClick={() => scrollToFAQ("contactus")} to={''}>Contact Us</Link></li>
         </ul><Link to='/login'>
             <p className="book-now-btn"> Book Now </p>
           </Link></>: ''}

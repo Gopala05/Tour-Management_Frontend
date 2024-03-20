@@ -7,7 +7,7 @@ import GAC from '../../assets/Icons/Agency.png';
 // import Tour5 from '../../assets/Tourism Places/Thekkady.jpg';
 // import Tour6 from '../../assets/Tourism Places/Udaipur.jpg';
 import Tour from "../../assets/TourImage.webp"
-import { Image } from 'antd';
+import { Image, Modal, Card } from 'antd';
 import axios from "axios";
 
 function Trending() {
@@ -37,20 +37,22 @@ function Trending() {
         },
       },
     });
-
+  
     // Destroy Swiper when the component unmounts to avoid memory leaks
     return () => {
-      swiper.destroy();
+      if (swiper && swiper.destroy) {
+        swiper.destroy(true, true);
+      }
     };
-  }, []); 
-
+  }, []);
+    
   useEffect(() =>{
     axios
       .get(
-        `${import.meta.env.VITE_API_URL}/api/top-destinations`,
+        `${import.meta.env.VITE_API_URL}/api/top-destination`,
       )
       .then((response) => {
-        setDest(response.data);
+        setDest(response.data.details);
       })
       .catch((error) => {
         Modal.error({
@@ -73,8 +75,6 @@ function Trending() {
         });
       });
   },[])
-
-  console.log(topdest)
   
   return (
     <section id="trending" style={{ marginBottom: 0, minHeight: '100vh', paddingBottom: 0 }}>
@@ -94,12 +94,12 @@ function Trending() {
                 </div>
 
                 <div class="t-b-text">
-                  <a href="#"> {item.place_name} </a>
+                  <a href="#"> {item.place_names} </a>
                   <span> {item.no_of_places} Places | {item.no_of_activities} Ativities </span>
                 </div>
 
                 <div class="price-book">
-                  <span class="t-price"> {item.price_amount} INR </span>
+                  <span class="t-price"> {item.price} </span>
                   <a href="/login" class="t-book"> Book Now </a>
                 </div>
 
