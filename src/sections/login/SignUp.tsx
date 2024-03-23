@@ -26,6 +26,12 @@ function SignUp() {
   const [mobileInvalid, setMobileInvalid] = useState(false);
   const [mobileError, setErrorMessageMobile] = useState("");
 
+  const [aadharInvalid, setAadharInvalid] = useState(false);
+  const [aadharError, setErrorMessageAadhar] = useState("");
+
+  const [emailInavalid, setEmailInvalid] = useState(false);
+  const [emailError, setErrorMessageEmail] = useState("");
+
   const [formValues, setFormValues] = useState({
     user_name: "",
     password: "",
@@ -45,10 +51,27 @@ function SignUp() {
   const handleInput = (e: { target: { name: any; value: any } }) => {
     setIsInvalid(false);
     setMobileInvalid(false);
-    if (e.target.name == "mobile_number"){
-      if(e.target.value.toString().length > 10) {
-        setMobileInvalid(true)
-        setErrorMessageMobile("Mobile number Should be 10 digits only")
+    setAadharInvalid(false);
+    setEmailInvalid(false);
+    if (e.target.name === "mobile_number") {
+      const isNumber = /^\d+$/.test(e.target.value);
+      if (e.target.value.toString().length !== 10 || !isNumber) {
+        setMobileInvalid(true);
+        setErrorMessageMobile("Mobile number Should be 10 digits only");
+      }
+    }
+    if (e.target.name == "aadhar") {
+      const isNumber = /^\d+$/.test(e.target.value);
+      if (e.target.value.toString().length !== 12 || !isNumber) {
+        setAadharInvalid(true);
+        setErrorMessageAadhar("Aadhar number Should be 12 digits only");
+      }
+    }
+    if (e.target.name === "email") {
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value);
+      if (!isEmail) {
+        setEmailInvalid(true);
+        setErrorMessageEmail("Invalid Email Format");
       }
     }
     const { name, value } = e.target;
@@ -70,10 +93,9 @@ function SignUp() {
 
   const handleEnterKeyPress = (event: { key: string }) => {
     if (event.key === "Enter") {
-        if(isCheckboxChecked)
-        {
-            handleSignUp();
-        }
+      if (isCheckboxChecked) {
+        handleSignUp();
+      }
     }
   };
 
@@ -85,64 +107,110 @@ function SignUp() {
   }, [handleEnterKeyPress]);
 
   const handleSignUp = async () => {
+    if(formValues.DOB > currentDate) {
+      notification.error({
+        message: (
+          <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Invalid</p>
+        ),
+        description: (
+          <p style={{ fontSize: "1rem" }}>
+            <b>Date Can not be Greater than Todays Date</b>
+          </p>
+        ),
+        placement: "topLeft",
+        style: {
+          backgroundColor: "white",
+          border: "2px solid #38A6E7",
+          borderRadius: "5px",
+        },
+      });
+      setFormValues({ ...formValues, DOB: "" });
+    } else {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/create_user`,
-        {
-          username: formValues.user_name,
-          password: formValues.password,
-          first_name: formValues.first_name,
-          last_name: formValues.last_name,
-          email: formValues.email,
-          mobile_number: formValues.mobile_number,
-          gender: formDropDownValues.Gender,
-          aadhar_number: formValues.aadhar,
-          date_of_birth: formValues.DOB,
-          address: formValues.address
+      if (
+        formValues.user_name &&
+        formValues.password &&
+        formValues.aadhar &&
+        formValues.email &&
+        formValues.mobile_number &&
+        formValues.first_name &&
+        formDropDownValues.Gender &&
+        formValues.DOB
+      ) {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/create_user`,
+          {
+            username: formValues.user_name,
+            password: formValues.password,
+            first_name: formValues.first_name,
+            last_name: formValues.last_name,
+            email: formValues.email,
+            mobile_number: formValues.mobile_number,
+            gender: formDropDownValues.Gender,
+            aadhar_number: formValues.aadhar,
+            date_of_birth: formValues.DOB,
+            address: formValues.address,
+          }
+        );
+
+        if (response.status == 201) {
+          notification.open({
+            message: (
+              <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Successful</p>
+            ),
+            description: (
+              <p style={{ fontSize: "1rem" }}>
+                <b>{response.data.message}</b>
+                <br></br>Please note your
+                <b>USER NAME: </b>
+                <b style={{ fontSize: "1.3rem", color: "#07273a" }}>
+                  {" " + response.data.user.username}
+                </b>
+                <br></br>
+                <b>Passowrd: </b>
+                <b style={{ fontSize: "1.3rem", color: "#07273a" }}>
+                  {" " + response.data.user.password}
+                </b>
+              </p>
+            ),
+            placement: "topLeft",
+            style: {
+              backgroundColor: "white",
+              border: "2px solid #38A6E7",
+              borderRadius: "5px",
+            },
+          });
+          navigate("/login");
         }
-      );
-      if (response.status == 201) {
-        notification.open({
-          message: (
-            <p style={{ fontSize: "1.5rem", color: "#00a3d5" }}>Successful</p>
-          ),
-          description: (
-            <p style={{ fontSize: "1rem" }}>
-              <b>{response.data.message}</b>
-              <br></br>Please note your
-              <b>USER NAME: </b>
-              <b style={{ fontSize: "1.3rem", color: "#07273a" }}>
-                {" " + response.data.user.username}
-              </b>
-              <br></br>
-              <b>Passowrd: </b>
-              <b style={{ fontSize: "1.3rem", color: "#07273a" }}>
-                {" " + response.data.user.password}
-              </b>
-            </p>
-          ),
-          placement: "topLeft",
-          style: {
-            backgroundColor: "white",
-            border: "2px solid #38A6E7",
-            borderRadius: "5px",
-          },
-        });
-        navigate("/login");
+      } else {
+        setIsInvalid(true);
+        setMobileInvalid(true);
+        setEmailInvalid(true);
+        setErrorMessageMobile("Please Enter Mobile Number !");
+        setErrorMessageEmail("Please Enter Email");
       }
     } catch (error: any) {
       setIsInvalid(true);
       setErrorMessage(error.response.data.message);
     }
+  }
   };
 
   return (
-    <div className="login-container" style={{ position: "relative", overflowY: "hidden", backgroundImage: `url(${back})`, backgroundSize: 'cover' }} >
+    <div
+      className="login-container"
+      style={{
+        position: "relative",
+        overflowY: "hidden",
+        backgroundImage: `url(${back})`,
+        backgroundSize: "cover",
+      }}
+    >
       <Nav hide={true} />
       <div className="sign-up">
         <h1 style={{ color: "#bd88c2" }}> Sign Up </h1>
 
-        <motion.div className="sign-up-card" style={{ top: '47vh', }}>
+        <motion.div className="sign-up-card" style={{ top: "47vh" }}>
           <p
             style={{
               color: "white",
@@ -155,7 +223,7 @@ function SignUp() {
           >
             Be a part of the Travel Family
           </p>
-          <Form style={{ height: '70vh', top: 0}}>
+          <Form style={{ height: "70vh", top: 0 }}>
             <Flex gap={20} vertical>
               <Row gutter={100}>
                 <Col md={8} lg={12}>
@@ -168,6 +236,13 @@ function SignUp() {
                     ]}
                     validateStatus={
                       isInvalid ? (formValues.user_name ? "" : "error") : ""
+                    }
+                    help={
+                      isInvalid
+                        ? formValues.user_name
+                          ? null
+                          : "Please Enter Username !"
+                        : null
                     }
                     style={{ textAlign: "start" }}
                   >
@@ -189,6 +264,13 @@ function SignUp() {
                     validateStatus={
                       isInvalid ? (formValues.password ? "" : "error") : ""
                     }
+                    help={
+                      isInvalid
+                        ? formValues.password
+                          ? null
+                          : "Please Enter Password !"
+                        : null
+                    }
                     style={{ textAlign: "start" }}
                   >
                     <label className="sign-up-item">
@@ -206,12 +288,11 @@ function SignUp() {
                     rules={[
                       {
                         required: true,
-                        message: "Please Enter AAdhar Number!",
+                        message: "Please Enter your Aadhar Number!",
                       },
                     ]}
-                    validateStatus={
-                      isInvalid ? (formValues.aadhar ? "" : "error") : ""
-                    }
+                    validateStatus={aadharInvalid ? "error" : ""}
+                    help={aadharInvalid ? aadharError : null}
                     style={{ textAlign: "start" }}
                   >
                     <label className="sign-up-item">
@@ -229,12 +310,11 @@ function SignUp() {
                     rules={[
                       {
                         required: true,
-                        message: "Please Enter your First Name!",
+                        message: "Please Enter your Email !",
                       },
                     ]}
-                    validateStatus={
-                      isInvalid ? (formValues.email ? "" : "error") : ""
-                    }
+                    validateStatus={emailInavalid ? "error" : ""}
+                    help={emailInavalid ? emailError : null}
                     style={{ textAlign: "start" }}
                   >
                     <label className="sign-up-item">
@@ -248,25 +328,20 @@ function SignUp() {
                     ></Input>
                   </Form.Item>
 
-                  <Form.Item style={{ textAlign: "start" }}
-                      rules={[
+                  <Form.Item
+                    style={{ textAlign: "start" }}
+                    rules={[
                       {
                         required: true,
-                        message: "Please Enter your mobile Number!",
+                        message: "Please Enter your Mobile Number!",
                       },
                     ]}
-
-                    validateStatus={
-                      mobileInvalid ? "error" : ""
-                    }
-                    help={
-                      mobileInvalid
-                        ? mobileError
-                        : null
-                    }
-                    >
-
-                    <label className="sign-up-item"> Mobile Number </label>
+                    validateStatus={mobileInvalid ? "error" : ""}
+                    help={mobileInvalid ? mobileError : null}
+                  >
+                    <label className="sign-up-item">
+                      Mobile Number <span style={{ color: "red" }}>*</span>
+                    </label>
                     <Input
                       type="number"
                       name="mobile_number"
@@ -275,7 +350,6 @@ function SignUp() {
                       onChange={handleInput}
                     ></Input>
                   </Form.Item>
-
                 </Col>
                 <Col md={8} lg={12}>
                   <Form.Item
@@ -287,6 +361,13 @@ function SignUp() {
                     ]}
                     validateStatus={
                       isInvalid ? (formValues.first_name ? "" : "error") : ""
+                    }
+                    help={
+                      isInvalid
+                        ? formValues.first_name
+                          ? null
+                          : "Please Enter First Name !"
+                        : null
                     }
                     style={{ textAlign: "start" }}
                   >
@@ -325,6 +406,13 @@ function SignUp() {
                           : "error"
                         : ""
                     }
+                    help={
+                      isInvalid
+                        ? formDropDownValues.Gender
+                          ? null
+                          : "Please Select Gender !"
+                        : null
+                    }
                     style={{ textAlign: "start" }}
                   >
                     <div className="sign-up-item">
@@ -350,30 +438,30 @@ function SignUp() {
                   </Form.Item>
 
                   <Form.Item
-                        validateStatus={
-                          isInvalid ? (formValues.DOB ? "" : "error") : ""
-                        }
-                        help={
-                          isInvalid
-                            ? formValues.DOB
-                              ? null
-                              : "Please Enter or Choose Date of Birth !"
-                            : null
-                        }
-                        style={{ textAlign: "start" }}
-                      >
-                        <label className="sign-up-item">
-                          Date Of Birth <span style={{ color: "red" }}>*</span>
-                        </label>
-                        <Input
-                          type="date"
-                          name="DOB"
-                          className="InputBox"
-                          onChange={handleInput}
-                          max={currentDate}
-                          value={formValues.DOB}
-                        />
-                      </Form.Item>
+                    validateStatus={
+                      isInvalid ? (formValues.DOB ? "" : "error") : ""
+                    }
+                    help={
+                      isInvalid
+                        ? formValues.DOB
+                          ? null
+                          : "Please Enter or Choose Date of Birth !"
+                        : null
+                    }
+                    style={{ textAlign: "start" }}
+                  >
+                    <label className="sign-up-item">
+                      Date Of Birth <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <Input
+                      type="date"
+                      name="DOB"
+                      className="InputBox"
+                      onChange={handleInput}
+                      max={currentDate}
+                      value={formValues.DOB}
+                    />
+                  </Form.Item>
 
                   <Form.Item style={{ textAlign: "start" }}>
                     <label className="sign-up-item"> Address </label>
@@ -398,12 +486,14 @@ function SignUp() {
                 }}
               >
                 <Form.Item style={{ margin: 0, textAlign: "justify" }}>
-                  <Checkbox onChange={handleCheckboxChange} >
-                    <p style={{ fontFamily: '-moz-initial', fontWeight: 900}}>I herby declare that details provided true and correct to
-                    the best of my knowledge.
-                    <br />I understand and agree that this data collected shall
-                    be stored and used by the Provider as per the prevalent data
-                    protection laws/rules/regulations/guidelines.
+                  <Checkbox onChange={handleCheckboxChange}>
+                    <p style={{ fontFamily: "-moz-initial", fontWeight: 900 }}>
+                      I herby declare that details provided true and correct to
+                      the best of my knowledge.
+                      <br />I understand and agree that this data collected
+                      shall be stored and used by the Provider as per the
+                      prevalent data protection
+                      laws/rules/regulations/guidelines.
                     </p>
                   </Checkbox>
                 </Form.Item>

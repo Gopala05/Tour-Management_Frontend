@@ -36,16 +36,16 @@ const LoginPage: React.FC = () => {
     },
   };
 
-  const handleEnterKeyPress = (event: { key: string; }) => {
-    if (event.key === 'Enter') {
-      handleLogin
+  const handleEnterKeyPress = (event: { key: string }) => {
+    if (event.key === "Enter") {
+      handleLogin;
     }
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleEnterKeyPress);
+    window.addEventListener("keydown", handleEnterKeyPress);
     return () => {
-      window.removeEventListener('keydown', handleEnterKeyPress);
+      window.removeEventListener("keydown", handleEnterKeyPress);
     };
   }, [handleEnterKeyPress]);
 
@@ -60,8 +60,8 @@ const LoginPage: React.FC = () => {
       );
       if (response.status == 202) {
         dispatch(setUserData(response.data.user));
-        dispatch(setToken(response.data.token))
-        navigate("/dashboard");
+        dispatch(setToken(response.data.token));
+        navigate("/home");
       }
     } catch (error: any) {
       setIsInvalid(true);
@@ -107,7 +107,11 @@ const LoginPage: React.FC = () => {
             rules={[{ required: true, message: "Please input your username!" }]}
             validateStatus={isInvalid ? "error" : ""}
           >
-            <Input className="InputBox" placeholder="Username" onChange={() => setIsInvalid(false)}/>
+            <Input
+              className="InputBox"
+              placeholder="Username"
+              onChange={() => setIsInvalid(false)}
+            />
           </Form.Item>
 
           <Form.Item
@@ -115,10 +119,16 @@ const LoginPage: React.FC = () => {
             rules={[{ required: true, message: "Please input your password!" }]}
             validateStatus={isInvalid ? "error" : ""}
           >
-            <Input.Password className="InputBox" placeholder="Password" onChange={() => setIsInvalid(false)} />
+            <Input.Password
+              className="InputBox"
+              placeholder="Password"
+              onChange={() => setIsInvalid(false)}
+            />
           </Form.Item>
 
-          <p style={{ color: 'red', textAlign: 'start'}}>{isInvalid ? errorMessage : ''}</p>
+          <p style={{ color: "red", textAlign: "start" }}>
+            {isInvalid ? errorMessage : ""}
+          </p>
 
           <Form.Item>
             <Button type="primary" className="login-button" htmlType="submit">
@@ -127,8 +137,14 @@ const LoginPage: React.FC = () => {
           </Form.Item>
         </Form>
 
-        <Text style={{ textAlign: "center", marginTop: 16, display: "block" }}>
-          Don't have an account? <a href="/sign-up">Sign up</a>
+        <Text style={{ textAlign: "right", marginTop: 16, display: "block" }}>
+          <p style={{ textAlign: "center", margin: 0 }}>
+            Don't have an account? <a href="/sign-up">Sign up</a>{" "}
+          </p>
+          <br />
+          <a href="/admin-login">
+            <u>Admin Login?</u>
+          </a>
         </Text>
       </motion.div>
     </div>
