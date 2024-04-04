@@ -27,7 +27,7 @@ Before you begin, ensure you have the following installed on your local machine:
    ```bash
       yarn install
 
-3. Run the Code in localhost:
+3. Run the following Command in Root Directory:
 - npm command
    ```bash
       npm run dev
