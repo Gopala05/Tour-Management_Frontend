@@ -1,6 +1,6 @@
 # Tour Management System Frontend
 
-Welcome to the Tour Management System Frontend repository! This project is developed using React, Redux, TypeScript, CSS, Lottie Animations, and communicates with a Rest API developed using Django as backend. This ReadMe file will guide you through the setup process, explain the project structure, and provide essential information for developers working on or exploring this frontend application.
+Welcome to the Tour Management System Frontend repository! This project is developed using React, Redux, TypeScript, CSS, Lottie Animations, and communicates with a Restfull API developed using Django as backend. This ReadMe file will guide you through the setup process, explain the project structure, and provide essential information for developers working on or exploring this frontend application.
 
 ## Getting Started
 
