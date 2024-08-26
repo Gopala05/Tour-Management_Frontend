@@ -34,7 +34,7 @@ import { format } from "date-fns";
 
 function Home() {
   const [data, setData] = useState([]);
-  const [year, setYear] = useState('');
+  const [year, setYear] = useState("");
 
   const dispatch = useDispatch();
   const user = useSelector(selectUserData);
@@ -51,12 +51,10 @@ function Home() {
         const data = response.data.details.filter(
           (item: any) => item.user_id == user.user_id
         );
-        const year_filter = data.filter(
-          (item: any) => {
-            const bookedYear = new Date(item.booking_date).getFullYear(); // Extract year from Booked_on date
-            return bookedYear === parseInt(year); 
-          }
-        );
+        const year_filter = data.filter((item: any) => {
+          const bookedYear = new Date(item.booking_date).getFullYear(); // Extract year from Booked_on date
+          return bookedYear === parseInt(year);
+        });
         const final_data = year ? year_filter : data;
         setData(final_data);
         dispatch(setBookings(data));
@@ -202,20 +200,28 @@ function Home() {
             </h2>
           </div>
           <div>
-            <label className="sign-up-item"> Select the Year Data you please to see</label>
+            <label className="sign-up-item">
+              {" "}
+              Select the Year Data you please to see
+            </label>
             <br></br>
-            <Select onChange={(value) => setYear(value)} placeholder="Select the Year" style={{ width: '20vw', marginBottom: '3vh', marginTop: '2vh' }} allowClear>
-              <Select.Option value='2000'> 2000 </Select.Option>
-              <Select.Option value='2021'> 2021 </Select.Option>
-              <Select.Option value='2022'> 2022 </Select.Option>
-              <Select.Option value='2023'> 2023 </Select.Option>
-              <Select.Option value='2024'> 2024 </Select.Option>
-              <Select.Option value='2025'> 2025 </Select.Option>
-              <Select.Option value='2026'> 2026 </Select.Option>
-              <Select.Option value='2027'> 2027 </Select.Option>
-              <Select.Option value='2028'> 2028 </Select.Option>
-              <Select.Option value='2029'> 2029 </Select.Option>
-              <Select.Option value='2030'> 2030 </Select.Option>
+            <Select
+              onChange={(value) => setYear(value)}
+              placeholder="Select the Year"
+              style={{ width: "20vw", marginBottom: "3vh", marginTop: "2vh" }}
+              allowClear
+            >
+              <Select.Option value="2000"> 2000 </Select.Option>
+              <Select.Option value="2021"> 2021 </Select.Option>
+              <Select.Option value="2022"> 2022 </Select.Option>
+              <Select.Option value="2023"> 2023 </Select.Option>
+              <Select.Option value="2024"> 2024 </Select.Option>
+              <Select.Option value="2025"> 2025 </Select.Option>
+              <Select.Option value="2026"> 2026 </Select.Option>
+              <Select.Option value="2027"> 2027 </Select.Option>
+              <Select.Option value="2028"> 2028 </Select.Option>
+              <Select.Option value="2029"> 2029 </Select.Option>
+              <Select.Option value="2030"> 2030 </Select.Option>
             </Select>
           </div>
 
